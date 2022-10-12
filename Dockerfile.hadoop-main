@@ -1,0 +1,22 @@
+FROM centos:6
+WORKDIR /var/cache/yum/x86_64/6/
+RUN mkdir base
+RUN mkdir extras
+RUN mkdir updates
+RUN echo "https://vault.centos.org/6.10/os/x86_64/" > /var/cache/yum/x86_64/6/base/mirrorlist.txt
+RUN echo "http://vault.centos.org/6.10/extras/x86_64/" > /var/cache/yum/x86_64/6/extras/mirrorlist.txt
+RUN echo "http://vault.centos.org/6.10/updates/x86_64/" > /var/cache/yum/x86_64/6/updates/mirrorlist.txt
+
+WORKDIR /root
+RUN yum update -y
+RUN yum install wget -y
+RUN yum install vim -y
+RUN yum install openssh-server openssh-clients openssh-askpass -y 
+RUN yum install java-1.8.0-openjdk-devel.x86_64 -y
+RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_dsa
+RUN cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -t rsa -N ""
+RUN ssh-keygen -f /etc/ssh/ssh_host_dsa_key -t dsa -N ""
+# RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -t ed25519 -N ""
+RUN echo "/usr/sbin/sshd" >> ~/.bashrc
+RUN source ~/.bashrc

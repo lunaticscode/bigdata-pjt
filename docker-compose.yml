@@ -1,0 +1,34 @@
+version: "3"
+services:
+  hadoop01:
+    image: hw-hadoop-base:0.3
+    hostname: hadoop01.hadoop.com
+    privileged: true
+    tty: true
+    ports:
+      - "7180:7180"
+    volumes:
+      - cgroup-volume:/sys/fs/cgroup:ro
+
+  hadoop02:
+    image: hw-hadoop-base:0.3
+    hostname: hadoop02.hadoop.com
+    links:
+      - hadoop01:hadoop01
+    privileged: true
+    tty: true
+    volumes:
+      - cgroup-volume:/sys/fs/cgroup:ro
+
+  hadoop03:
+    image: hw-hadoop-base:0.3
+    hostname: hadoop03.hadoop.com
+    links:
+      - hadoop01:hadoop01
+    privileged: true
+    tty: true
+    volumes:
+      - cgroup-volume:/sys/fs/cgroup:ro
+
+volumes:
+  cgroup-volume:
