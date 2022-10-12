@@ -1,7 +1,7 @@
 version: "3"
 services:
   hadoop01:
-    image: hw-hadoop-base:0.3
+    build: .
     hostname: hadoop01.hadoop.com
     privileged: true
     tty: true
@@ -11,7 +11,7 @@ services:
       - cgroup-volume:/sys/fs/cgroup:ro
 
   hadoop02:
-    image: hw-hadoop-base:0.3
+    build: .
     hostname: hadoop02.hadoop.com
     links:
       - hadoop01:hadoop01
@@ -21,7 +21,7 @@ services:
       - cgroup-volume:/sys/fs/cgroup:ro
 
   hadoop03:
-    image: hw-hadoop-base:0.3
+    build: .
     hostname: hadoop03.hadoop.com
     links:
       - hadoop01:hadoop01
